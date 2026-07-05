@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>Glyph review | Bihua Trainer</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<header class="app">
+  <a class="wordmark" href="index.html">笔画 Trainer</a>
+  <nav><a href="index.html">← app</a></nav>
+</header>
+<main>
+  <h1>Glyph extraction review</h1>
+  <p class="muted small hanzi">
+    Every glyph below is derived from <em>hanzi-writer-data</em> (Make Me a
+    Hanzi, Kai-style Arphic outlines) via <code>scripts/extract-strokes.mjs</code>;
+    nothing is hand-drawn. Hover or tap a token to highlight its segment of the
+    median. Verify especially: 竖弯 (shù wān) vs 竖折 (shù zhé), 弯钩 (wān gōu)
+    vs 卧钩 (wò gōu), and the curl of 横折弯钩 (héng zhé wān gōu).
+    Full log: <a href="data/generated/extraction-report.md">extraction-report.md</a>.
+  </p>
+  <div id="grid" class="review-grid"></div>
+  <h2>Canonical-source mapping</h2>
+  <div id="table"></div>
+</main>
+<script type="module" src="src/review.js"></script>
+</body>
+</html>

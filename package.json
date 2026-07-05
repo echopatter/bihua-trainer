@@ -1,0 +1,17 @@
+{
+  "name": "bihua-trainer",
+  "version": "1.0.0",
+  "description": "笔画 Trainer — a static, client-side game for learning Chinese stroke types: shapes, names, pinyin.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "extract": "node scripts/extract-strokes.mjs",
+    "validate": "node scripts/validate-characters.mjs",
+    "build-data": "npm run extract && npm run validate"
+  },
+  "devDependencies": {
+    "cnchar": "^3.2.6",
+    "cnchar-order": "^3.2.6",
+    "hanzi-writer-data": "^2.0.1"
+  }
+}

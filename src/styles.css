@@ -1,0 +1,279 @@
+/* Bihua Trainer — strict minimalism (spec §Visual design).
+   One accent color, no gradients/shadows/textures/badges. */
+
+:root {
+  --bg: #FAFAFA;
+  --panel: #FFFFFF;
+  --ink: #111111;
+  --muted: #6b7280;
+  --hairline: #e2e2e2;
+  --grid: #dddddd;
+  --accent: #2563EB;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0E0E0E;
+    --panel: #161616;
+    --ink: #EDEDED;
+    --muted: #9ca3af;
+    --hairline: #2a2a2a;
+    --grid: #333333;
+    --accent: #3B82F6;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+.hanzi, .glyph-name {
+  font-family: system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans CJK SC", sans-serif;
+}
+
+main, .shell {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+header.app {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--ink);
+}
+header.app .wordmark {
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  text-decoration: none;
+}
+header.app nav { display: flex; gap: 14px; align-items: center; }
+header.app nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+header.app nav a:hover, header.app nav a[aria-current="page"] { color: var(--accent); }
+
+h1 { font-size: 22px; font-weight: 600; margin: 24px 0 8px; }
+h2 { font-size: 17px; font-weight: 600; margin: 24px 0 8px; }
+h3 { font-size: 15px; font-weight: 600; margin: 16px 0 6px; }
+p, li { font-size: 15px; }
+.muted { color: var(--muted); }
+.py { color: var(--muted); font-size: 0.94em; }
+.small { font-size: 13px; }
+hr { border: 0; border-top: 1px solid var(--hairline); margin: 20px 0; }
+
+a { color: var(--accent); }
+
+/* Ink-print look: solid ink borders, hard offset shadow on hover, like a
+   woodblock stamp. No gradients, no soft shadows. */
+button, .btn {
+  appearance: none;
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: box-shadow 80ms ease, transform 80ms ease;
+}
+button:hover, .btn:hover {
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: translate(-1px, -1px);
+}
+button:active, .btn:active { box-shadow: none; transform: translate(1px, 1px); }
+button:focus-visible, a:focus-visible, input:focus-visible, .chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+button.primary { background: var(--ink); color: var(--bg); font-weight: 600; }
+button.linklike {
+  border: none; background: none; color: var(--accent); padding: 4px;
+}
+button.linklike:hover { box-shadow: none; transform: none; text-decoration: underline; }
+button[disabled] { opacity: 0.45; cursor: default; }
+button[disabled]:hover { box-shadow: none; transform: none; }
+
+
+/* glyphs */
+.glyph { display: block; }
+.glyph .mizige line, .glyph .mizige rect { stroke: var(--grid); stroke-width: 1; }
+.glyph-ink { fill: var(--ink); }
+.glyph-ink.ghost { fill-opacity: 0.15; }
+.glyph-hl { fill: none; stroke: var(--accent); stroke-width: 22; stroke-linecap: round; stroke-linejoin: round; }
+.glyph-anim { fill: none; stroke: var(--ink); stroke-width: 26; stroke-linecap: round; stroke-linejoin: round; }
+.glyph-missing { fill: var(--muted); font-size: 60px; }
+
+/* quiz */
+.quiz-stage { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 20px; }
+.quiz-prompt { font-size: 15px; color: var(--muted); }
+.quiz-name { font-size: 40px; margin: 0; }
+.quiz-sub { font-size: 17px; color: var(--muted); }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 8px; }
+.options.one-col { grid-template-columns: 1fr; }
+.options button { font-size: 18px; padding: 14px 10px; }
+.options button.right { border-color: var(--accent); box-shadow: 3px 3px 0 var(--accent); }
+.options button.picked-wrong { border-style: dashed; }
+.glyph-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.glyph-options button { display: flex; justify-content: center; padding: 8px; }
+
+.verdict { font-size: 16px; min-height: 24px; text-align: center; }
+.verdict .mark { font-weight: 700; }
+.explain {
+  font-size: 14px;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-left: 6px solid var(--accent);
+  border-radius: 6px;
+  padding: 10px 12px;
+  max-width: 100%;
+}
+.mnemonic { font-size: 13px; color: var(--muted); }
+.mnemonic .tag { border: 1px solid var(--hairline); border-radius: 4px; padding: 0 4px; font-size: 11px; margin-right: 6px; }
+
+.grade-row { display: flex; gap: 8px; width: 100%; }
+.grade-row button { flex: 1; font-size: 14px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.chip {
+  font-size: 20px;
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: var(--panel);
+  cursor: pointer;
+}
+.chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.answer-slots { display: flex; gap: 6px; min-height: 46px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.answer-slots .chip { cursor: pointer; }
+
+.topbar { display: flex; justify-content: space-between; align-items: baseline; margin-top: 18px; }
+.topbar .count { color: var(--muted); font-size: 13px; }
+
+/* lists / home */
+.mode-list { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 8px; }
+.mode-list a {
+  display: block;
+  padding: 12px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: box-shadow 80ms ease, transform 80ms ease;
+}
+.mode-list a:hover { box-shadow: 3px 3px 0 var(--ink); transform: translate(-1px, -1px); }
+.mode-list .desc { display: block; color: var(--muted); font-size: 13px; }
+
+.lesson-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--hairline); }
+.lesson-row .strokes { font-size: 16px; margin-top: 2px; }
+.lesson-row .btn { flex-shrink: 0; }
+
+/* family tree */
+.family-group { margin: 18px 0; }
+.family-group .head { font-size: 26px; font-weight: 600; }
+.family-members { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.family-members button { font-size: 16px; }
+.family-preview { display: flex; gap: 14px; align-items: center; margin-top: 10px; }
+
+/* progress */
+.heatmap { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 12px 0; }
+.heatmap .cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  font-size: 15px;
+  position: relative;
+}
+.meter { height: 4px; background: var(--hairline); border-radius: 2px; overflow: hidden; }
+.meter > div { height: 100%; background: var(--accent); }
+.stroke-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+.stroke-row .stroke-name { white-space: nowrap; flex-shrink: 0; }
+.stroke-row .stroke-name .hanzi { font-size: 16px; }
+.stroke-row .meter { flex: 1; }
+.stroke-row .small { flex-shrink: 0; width: 36px; text-align: right; }
+
+table.plain { border-collapse: collapse; width: 100%; font-size: 13px; }
+table.plain th, table.plain td { border-bottom: 1px solid var(--hairline); padding: 6px 8px; text-align: left; vertical-align: top; }
+
+/* settings */
+.setting-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hairline); }
+.setting-row label { flex: 1; }
+.setting-row .hint { display: block; color: var(--muted); font-size: 12px; }
+input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+input[type="text"] {
+  font: inherit; color: var(--ink); background: var(--panel);
+  border: 2px solid var(--ink); border-radius: 6px; padding: 10px 12px; width: 100%;
+}
+
+.notice {
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  margin: 14px 0;
+}
+
+/* review page */
+.review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.review-cell { border: 2px solid var(--ink); border-radius: 6px; padding: 10px; }
+.review-cell .nm { font-size: 15px; font-weight: 600; margin-top: 6px; }
+.review-cell .src { font-size: 12px; color: var(--muted); }
+.review-cell .tokens { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.review-cell .tokens .tk {
+  border: 1px solid var(--hairline); border-radius: 4px;
+  font-size: 13px; padding: 1px 6px; cursor: default;
+}
+.review-cell .tokens .tk:hover { border-color: var(--accent); color: var(--accent); }
+.flag { color: var(--accent); font-size: 12px; }
+
+/* did you know box */
+.fact-box {
+  border: 2px solid var(--ink);
+  border-left: 6px solid var(--accent);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 20px 0 0;
+}
+.fact-box .fact-kicker { margin: 0 0 2px; font-weight: 600; font-size: 14px; }
+.fact-box .fact-text { margin: 0; font-size: 14px; }
+.fact-box .fact-actions { margin: 8px 0 0; }
+.fact-box .linklike { font-size: 13px; }
+
+/* keyboard reminder makes no sense on a phone, so hide it there */
+.kbd {
+  background: var(--hairline);
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 12px;
+}
+@media (hover: none) and (pointer: coarse) {
+  .kbd-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+@media (max-width: 420px) {
+  .options { grid-template-columns: 1fr; }
+  .quiz-name { font-size: 34px; }
+}
