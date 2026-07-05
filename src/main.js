@@ -1,11 +1,14 @@
 // src/main.js: hash router + app shell.
 import { h } from './ui.js';
+import { applyTheme } from './store.js';
 import { flashcards, mcq, nameBuilder, confusions, drill } from './modes.js';
 import { characterMode } from './character.js';
 import { home, rules, family, progress, settingsScreen, testOut } from './screens.js';
 
 const app = document.getElementById('app');
 let cleanup = () => {};
+
+applyTheme();
 
 const ROUTES = {
   '': [home, null],

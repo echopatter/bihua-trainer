@@ -4,7 +4,7 @@ import { STROKES, LESSONS, byId } from '../data/strokes.js';
 import { FACTS } from '../data/facts.js';
 import { h, glyphSVG } from './ui.js';
 import {
-  settings, setSetting, streakDays, mastery, topConfusionPairs,
+  settings, setSetting, applyTheme, streakDays, mastery, topConfusionPairs,
   lessonPassed, setLessonResult, exportJSON, importJSON, resetAll, getState,
 } from './store.js';
 import { pool, glyphOf, examplesOf, withPy } from './engine.js';
@@ -218,9 +218,21 @@ export function settingsScreen(container) {
     return h('div', { class: 'setting-row' },
       h('label', { for: `set-${key}` }, label, h('span', { class: 'hint' }, hint)), box);
   });
+
+  const themeSel = h('select', { id: 'set-theme' },
+    ...['auto', 'light', 'dark'].map(t => {
+      const o = h('option', { value: t }, t);
+      if (settings().theme === t) o.setAttribute('selected', '');
+      return o;
+    }));
+  themeSel.addEventListener('change', () => { setSetting('theme', themeSel.value); applyTheme(); });
+  const themeRow = h('div', { class: 'setting-row' },
+    h('label', { for: 'set-theme' }, 'Theme', h('span', { class: 'hint' }, 'auto follows your system')), themeSel);
+
   container.replaceChildren(
     h('h1', {}, 'Settings'),
     ...rows,
+    themeRow,
     h('hr'),
     h('p', { class: 'small muted' }, 'All progress is saved in this browser instantly after every answer (localStorage). It stays until you press Reset, import another file, or clear this site\'s browser data; private/incognito windows drop it when they close. Progress is per browser and per device, so use Export and Import on the Progress screen to move it.'),
     h('button', { onclick: () => {

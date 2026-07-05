@@ -10,6 +10,7 @@ const DEFAULTS = {
     didYouKnow: true,      // curated fact box on the home screen
     extendedTier: false,
     extendedExamples: false,
+    theme: 'auto',         // 'auto' follows the system, or 'light' / 'dark'
   },
   srs: {},        // strokeId -> {ease, ivl (days), due (ts), reps}
   stats: {},      // strokeId -> {seen, correct, wrong}
@@ -42,6 +43,11 @@ export function save() {
 export const getState = () => state;
 export const settings = () => state.settings;
 export function setSetting(k, v) { state.settings[k] = v; save(); }
+
+// Reflect the theme choice on <html>; the stylesheet keys dark mode off it.
+export function applyTheme() {
+  document.documentElement.dataset.theme = state.settings.theme || 'auto';
+}
 
 // --- streak (plain day count, no badges) -----------------------------------
 const today = () => new Date().toISOString().slice(0, 10);
